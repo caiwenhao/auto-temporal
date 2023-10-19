@@ -8,7 +8,7 @@ class NotifyOrder:
     async def run(self, amount: float) -> str:
         if amount > 20:
             return await workflow.execute_activity(
-                send_email, "admin@example.com", "New Order", "You have a new order.", start_to_close_timeout=timedelta(seconds=5)
+                send_email, "admin@example.com",start_to_close_timeout=timedelta(seconds=5)
             )
         else:
             return "Order amount too small, no email sent."
