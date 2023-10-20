@@ -1,6 +1,5 @@
 from datetime import timedelta
 from temporalio import workflow
-from activity_registry import activity_registry
 
 @workflow.defn
 class AbstractWorkflow:
