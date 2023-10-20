@@ -1,5 +1,12 @@
 from datetime import timedelta
-from temporalio import workflow
+from temporalio import workflow, activity
+from activities import HttpRequestParams  # 引入HttpRequestParams dataclass
+
+# 假设您有一个活动注册表，用于查找活动函数
+activity_registry = {
+    'http_request_activity': activity.http_request_activity,
+    'send_email': activity.send_email_activity  # 添加send_email活动
+}
 
 @workflow.defn
 class AbstractWorkflow:
@@ -38,9 +45,14 @@ class AbstractWorkflow:
         
         activity_fn = activity_registry.get(activity_type)
         if activity_fn:
+            if activity_type == 'http_request_activity':
+                params = HttpRequestParams(**parameters)  # 使用dataclass封装参数
+            else:
+                params = parameters  # 其他活动可能不需要dataclass封装
+
             await workflow.execute_activity(
                 activity_fn,
-                **parameters,
+                params,
                 start_to_close_timeout=timedelta(seconds=5)
             )
         else:

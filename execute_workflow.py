@@ -1,11 +1,11 @@
 import json
 from temporalio.client import Client
 import asyncio
-from abstract_workflow import AbstractWorkflow
+from workflows import AbstractWorkflow
 
 async def main():
     client = await Client.connect("192.168.66.174:7233", namespace="default")
-    # await client.get_workflow_handle("order-workflow").terminate()
+    #await client.get_workflow_handle("order-workflow").terminate()
 
     workflow_json = '''
     {
